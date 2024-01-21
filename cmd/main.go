@@ -1,23 +1,29 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
-
-	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 type Data struct {
 	PageTitle string
 }
 
-func main() {
-	var data = Data{PageTitle: "Hello Echo 2"}
-	var tmpl = template.Must(template.ParseFiles("views/hello.html"))
+var tmpl = template.Must(template.ParseFiles("views/hello.html"))
 
-	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		tmpl.Execute(c.Response().Writer, data)
-		return nil
-	})
-	e.Logger.Fatal(e.Start(":8001"))
+func Home(w http.ResponseWriter, r *http.Request) {
+	data := Data{PageTitle: "Hello Live Reload"}
+	tmpl.Execute(w, data)
+}
+
+func main() {
+
+	http.HandleFunc("/", Home)
+
+	fmt.Printf("Server Listening at http://localhost:8001\n")
+	err := http.ListenAndServe(":8001", nil)
+	if err != nil {
+		panic(err)
+	}
 }

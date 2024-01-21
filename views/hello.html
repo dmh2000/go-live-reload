@@ -10,6 +10,9 @@
 
       sock.onclose = function (event) {
         console.log("disconnected");
+        // the timeout value needs to be long enough for the
+        // go app to reload before refreshing this page.
+        // tune it to what works on your system.
         setTimeout(function () {
           location.reload();
         }, 2000);
@@ -18,6 +21,5 @@
   </head>
   <body>
     <h1>{{.PageTitle}}</h1>
-    abcd
   </body>
 </html>
