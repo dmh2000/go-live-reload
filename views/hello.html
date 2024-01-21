@@ -1,0 +1,23 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{.PageTitle}}</title>
+    <script>
+      sock = new WebSocket("ws://localhost:8080/");
+      sock.onopen = function (event) {
+        console.log("connected");
+      };
+
+      sock.onclose = function (event) {
+        console.log("disconnected");
+        setTimeout(function () {
+          location.reload();
+        }, 2000);
+      };
+    </script>
+  </head>
+  <body>
+    <h1>{{.PageTitle}}</h1>
+    abcd
+  </body>
+</html>
