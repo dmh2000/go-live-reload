@@ -4,5 +4,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.3"
+  },
+  "scripts": {
+    "start": "nodemon --ext go,mjs,html --watch ../cmd --watch ../views  index.mjs"
   }
 }

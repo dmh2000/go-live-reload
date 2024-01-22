@@ -3,9 +3,11 @@
     <meta charset="UTF-8" />
     <title>{{.PageTitle}}</title>
     <script>
+      let active = false;
       sock = new WebSocket("ws://localhost:8080/");
       sock.onopen = function (event) {
         console.log("connected");
+        active = true;
       };
 
       sock.onclose = function (event) {
@@ -13,9 +15,12 @@
         // the timeout value needs to be long enough for the
         // go app to reload before refreshing this page.
         // tune it to what works on your system.
-        setTimeout(function () {
-          location.reload();
-        }, 2000);
+        if (active) {
+          setTimeout(function () {
+            location.reload();
+            active = false;
+          }, 2000);
+        }
       };
     </script>
   </head>
