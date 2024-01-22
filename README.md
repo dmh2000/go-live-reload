@@ -1,5 +1,7 @@
 # GO Live Reload with Automatic Page Refresh
 
+https://github.com/dmh2000/go-live-reload
+
 ## Introduction
 
 If you are coming from the React world of web app development, you probably use 'create-react-app','vite' or some other tool to scaffold out your application. One feature that these provide is live reload of the app when you change something in the source code. It really speeds up development.
@@ -7,18 +9,18 @@ If you are coming from the React world of web app development, you probably use 
 In the Go world, you can get live reload of a web app using cosmtrek/air or one of a few other tools : https://techinscribed.com/5-ways-to-live-reloading-go-applications/
 
 **THERE IS ONE CATCH WITH GO**:
-In the React environment, when you change code, the server will restart, AND the changes show up immediately on the browser. This is possible because a React app has a bunch of Javascript running in the app that handle it. Its baked into the React library that is part of the app.
+In the React environment, when you change code, the server will restart, AND the changes show up immediately on the browser. This is possible because a React app has a bunch of JavaScript running in the app that handle it. Its baked into the React library that is part of the app.
 
-On the other hand, the go tools such as air will restart your server when source code changes, but they don't force the browser to refresh the current page. So as far as I know with any of the go approaches, you have to manually refresh the page or possibly have it refresh itself with a periodic timer (which is horrible).
+On the other hand, the go tools such as Air will restart your server when source code changes, but they don't force the browser to refresh the current page. So as far as I know with any of the go approaches, you have to manually refresh the page or possibly have it refresh itself with a periodic timer (which is horrible).
 
 There is a solution that seems to work for me. By adding a bit of code, you can have REAL live reload with page refresh on code change.
 
 ## Approach
 
 1. Setup and use cosmtrek/air to live reload the go web server in the conventional manner. https://github.com/cosmtrek/air
-2. Add a tiny piece of Javascript into your web pages in the Head section. This script creates a simple WebSocket server that listens for a connection from a WebSocket client.
+2. Add a tiny piece of JavaScript into your web pages in the Head section. This script creates a simple WebSocket server that listens for a connection from a WebSocket client.
 
-```Javascript
+```JavaScript
     <script>
       let active = false;
       sock = new WebSocket("ws://localhost:8080/");
@@ -76,7 +78,7 @@ wss.on("error", function error() {
   - Nodemon is configured to watch the source code of the application
   - It connects to the WebSocket script in the Web page.
 
-- Once the WebSocket endpoints are connected up, there are not messages sent back and forth. There is no extra load on the application. Both ends are passively sitting waiting for a disconnect.
+- Once the WebSocket endpoints are connected up, there are no messages sent back and forth. There is no extra load on the application. Both ends are passively sitting waiting for a disconnect.
 
 **Source Code Change**
 
@@ -124,7 +126,7 @@ cd ..
 
 ## Startup
 
-Note : **cmd/main.go** must be run at the top level of the project, not in **cmd**. It needs to access the **views** directory to fetch the html template.
+Note : **cmd/main.go** must be run at the top level of the project, not in **cmd**. It needs to access the **views** directory to fetch the HTML template.
 
 Run each of these commands in separate terminals
 
@@ -134,6 +136,8 @@ Run each of these commands in separate terminals
 # live reload of golang web app
 $ air
 ```
+
+Open the browser to see the web page.
 
 ### Start the websocket app using Nodemon
 
@@ -145,5 +149,17 @@ Nodemon options:
 ```bash
 # restart the local websocket server so web app will detect disconnect and reload
 $ cd ws
-$ nodemon --ext go,mjs,html --watch ../cmd --watch ../views  index.mjs
+$ nodemon --ext go,mjs,HTML --watch ../cmd --watch ../views  index.mjs
+
+# OR
+# the package.json has a start script that does the above
+npm start
 ```
+
+## Test
+
+- Make a change to the app source code. Either in cmd/main.go or views/hello.HTML.
+- Save the change
+- On terminal 1, you should see that Air restarted the Go app
+- On terminal 2, you should see that Nodemon restarted the JavaScript app
+- On the browser, you should see the changes pop up after a second or two
