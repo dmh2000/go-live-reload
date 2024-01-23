@@ -20,7 +20,7 @@ There is a solution that seems to work for me. By adding a bit of code, you can 
 1. Setup and use cosmtrek/air to live reload the go web server in the conventional manner. https://github.com/cosmtrek/air
 2. Add a tiny piece of JavaScript into your web pages in the Head section. This script creates a simple WebSocket server that listens for a connection from a WebSocket client.
 
-This script coould be minified in real usage.
+This script coould be minified in real usage. It would need to be added to any page that wanted this to work during development.
 
 ```JavaScript
     <script>
