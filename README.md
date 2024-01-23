@@ -11,7 +11,7 @@ In the Go world, you can get live reload of a web app using cosmtrek/air or one 
 **THERE IS ONE CATCH WITH GO**:
 In the React environment, when you change code, the server will restart, AND the changes show up immediately on the browser. This is possible because a React app has a bunch of JavaScript running in the app that handle it. Its baked into the React library that is part of the app.
 
-On the other hand, the go tools such as Air will restart your server when source code changes, but they don't force the browser to refresh the current page. So as far as I know with any of the go approaches, you have to manually refresh the page or possibly have it refresh itself with a periodic timer (which is horrible).
+On the other hand, the go tools such as Air will restart your server when source code changes, but they don't force the browser to refresh the current page. So as far as I know with any of the go approaches, you have to manually refresh the page or possibly have it refresh itself with a periodic timer (horrible?).
 
 There is a solution that seems to work for me. By adding a bit of code, you can have REAL live reload with page refresh on code change.
 
@@ -19,6 +19,8 @@ There is a solution that seems to work for me. By adding a bit of code, you can 
 
 1. Setup and use cosmtrek/air to live reload the go web server in the conventional manner. https://github.com/cosmtrek/air
 2. Add a tiny piece of JavaScript into your web pages in the Head section. This script creates a simple WebSocket server that listens for a connection from a WebSocket client.
+
+This script coould be minified in real usage.
 
 ```JavaScript
     <script>
